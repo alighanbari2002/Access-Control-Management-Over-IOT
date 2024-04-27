@@ -11,7 +11,7 @@
 
 const QString apiService = "/service";
 const int port = 10051;
-const QString namesFile = "name.html";
+const QString namesFile = "name.csv";
 
 
 class Webserver : public QTcpServer
@@ -19,7 +19,7 @@ class Webserver : public QTcpServer
     Q_OBJECT
 public:
     explicit Webserver(QObject *parent = nullptr) : QTcpServer(parent) {}
-    QString readHtmlFile(const QString& filePath)
+    QString readFileContents(const QString& filePath)
     {
         QFile file(filePath);
         if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
@@ -29,10 +29,10 @@ public:
         }
 
         QTextStream in(&file);
-        QString htmlContent = in.readAll();
+        QString Content = in.readAll();
 
         file.close();
-        return htmlContent;
+        return Content;
     }
 
 protected:
@@ -50,13 +50,13 @@ protected:
             QStringList firstLineParts = firstLine.split(" ");
             QString path = firstLineParts.at(1);
 
-            QString strResource = readHtmlFile("C:\\Users\\ASUS\\Desktop\\Webserver\\webserver\\" + namesFile);
+            QString strResource = readFileContents("../../assets/" + namesFile);
             QString lenght = QString(std::to_string(strResource.length()).c_str());
             if (path == apiService) {
                 QByteArray responseData = "HTTP/1.1 200 OK\r\n"
                                           "Content-Type: text/plain\r\n"
                                           "Content-Length: " + lenght.toUtf8() + "\r\n"
-                                          "\r\n" +
+                                                              "\r\n" +
                                           strResource.toUtf8();
                 socket->write(responseData);
                 socket->flush();

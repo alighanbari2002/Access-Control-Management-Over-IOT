@@ -1,5 +1,6 @@
 QT = core
 QT += network
+
 CONFIG += c++17 cmdline
 
 # You can make your code fail to compile if it uses deprecated APIs.
@@ -9,15 +10,10 @@ CONFIG += c++17 cmdline
 SOURCES += \
         main.cpp
 
-TRANSLATIONS += \
-    webserver_en_GB.ts
-CONFIG += lrelease
-CONFIG += embed_translations
-
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 DISTFILES += \
-    name.html
+    assets/name.csv
