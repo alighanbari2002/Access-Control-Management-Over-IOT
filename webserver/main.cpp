@@ -53,9 +53,9 @@ public:
 
 
             if(strResource.contains(username,Qt::CaseSensitive))
-                strResource = "Success";
+                strResource = username;
             else
-                strResource = "Failed!";
+                strResource = "Access Denied!";
             return strResource;
         }
     }
@@ -117,3 +117,78 @@ int main(int argc, char *argv[])
 }
 
 #include "main.moc"
+
+
+// #include <QCoreApplication>
+// #include <QHttpServer>
+// #include <QHttpServerRequest>
+// #include <QHttpServerResponse>
+// #include <QDebug>
+
+// class WebServer : public QObject
+// {
+//     Q_OBJECT
+// public:
+//     explicit WebServer(QObject *parent = nullptr) : QObject(parent)
+//     {
+//         server = new QHttpServer(this);
+
+
+
+//         connect(server, &QHttpServer::requestReceived, this, &WebServer::handleRequest);
+
+//         if (!server->listen(QHostAddress::Any, 8080)) {
+//             qWarning() << "Failed to start server:" << server->errorString();
+//         } else {
+//             qDebug() << "Server started, listening on port 8080.";
+//         }
+//     }
+
+// private slots:
+//     void handleRequest(QHttpServerRequest *request, QHttpServerResponse *response)
+//     {
+//         QString path = request->url().toString();
+//         qDebug() << "Received request:" << path;
+
+//         if (request->method() == QHttpServerRequest::Method::Get) {
+//             handleGetRequest(request, response);
+//         } else if (request->method() ==  QHttpServerRequest::Method::Post) {
+//             handlePostRequest(request, response);
+//         } else {
+//             response->setStatusCode(400);
+//             response->setReasonPhrase("Bad Request");
+//             response->end();
+//         }
+//     }
+
+//     void handleGetRequest(QHttpServerRequest *request, QHttpServerResponse *response)
+//     {
+//         // Respond to GET requests
+//         response->setStatusCode(200);
+//         response->setReasonPhrase("OK");
+//         response->setHeader("Content-Type", "text/plain");
+//         response->end("GET request received");
+//     }
+
+//     void handlePostRequest(QHttpServerRequest *request, QHttpServerResponse *response)
+//     {
+//         // Respond to POST requests
+//         response->setStatusCode(200);
+//         response->setReasonPhrase("OK");
+//         response->setHeader("Content-Type", "text/plain");
+//         response->end("POST request received");
+//     }
+
+// private:
+//     QHttpServer *server;
+// };
+
+// int main(int argc, char *argv[])
+// {
+//     QCoreApplication a(argc, argv);
+
+//     WebServer webServer;
+
+//     return a.exec();
+// }
+
