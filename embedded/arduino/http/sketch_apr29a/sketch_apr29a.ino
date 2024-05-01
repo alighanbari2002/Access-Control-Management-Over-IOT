@@ -3,7 +3,6 @@
 #include <Servo.h>
 #include <LiquidCrystal.h>
 #define Green_LED_Port 9
-// #define Red_LED_Port 8
 #define Door_Motor_Port 2
 #define Access_Denied "Access Denied!"
 #define Access_Granted "Access Granted"
@@ -39,13 +38,11 @@ static void my_result_cb (byte status, word off, word len) {
   int size = response.length();
   response = response.substring(size - 14,size);
 
-  
-  // Check if the response is equal to a specific string
   if (response.equals(Access_Denied)) {
     Serial.println(Access_Denied);
     lcd.clear();
     lcd.print(Access_Denied);
-    // digitalWrite(Red_LED_Port, HIGH);
+    
     doormotor.write(0);
   } else if(response.equals(Access_Granted)){
     digitalWrite(Green_LED_Port, HIGH);
@@ -58,19 +55,15 @@ static void my_result_cb (byte status, word off, word len) {
 
 void setup () {
   pinMode(Green_LED_Port, OUTPUT);
-  // pinMode(Red_LED_Port, OUTPUT);
+
   doormotor.attach(Door_Motor_Port);
   doormotor.write(0);
 
-  // set up the LCD's number of columns and rows:
   lcd.begin(16, 2);
-  // Print a message to the LCD.
-  // lcd.print("hello, world!");
 
   Serial.begin(9600);
   Serial.println("\n[getStaticIP]");
 
-  // Change 'SS' to your Slave Select pin, if you arn't using the default pin
   if (ether.begin(sizeof Ethernet::buffer, mymac, SS) == 0)
     Serial.println( "Failed to access Ethernet controller");
 
@@ -83,7 +76,7 @@ void setup () {
     ether.packetLoop(ether.packetReceive());
   Serial.println("Gateway found");
 
-  timer = - REQUEST_RATE; // start timing out right away
+  timer = - REQUEST_RATE; 
 }
 
 void loop () {
@@ -94,12 +87,13 @@ void loop () {
     Serial.println("\n>>> REQ");
 
     lcd.clear();
-    lcd.print("Waiting for Req");
+    lcd.setCursor(0,0);
+    lcd.print("Waiting for");
+    lcd.setCursor(0, 1);
+    lcd.print("request");
 
     const char* myUrl = "/service"; // Your desired URL
     const char* myHost = "192.168.2.1"; // Your server's hostname
-    //const char* myAdditionalHeader = "Content-Type: application/json"; // Additional header if needed
-    // const char* myPostData = "{\"username\":\"Ahmad\"}"; // Your JSON data
 
     digitalWrite(Green_LED_Port, LOW);
     // digitalWrite(Red_LED_Port, LOW);
@@ -108,7 +102,6 @@ void loop () {
     if (Serial.available() > 0) {
      String input = Serial.readStringUntil('\r');
      
-     // Print the input received
      Serial.print("Input from Virtual Terminal: ");
      Serial.println(input);
      rfid = input;
@@ -116,11 +109,9 @@ void loop () {
      StaticJsonDocument<200> jsonDocument;
      jsonDocument["username"] = input;
      
-     // Serialize JSON document to a char array
      char jsonBuffer[200];
      serializeJson(jsonDocument, jsonBuffer);
      
-     // Use the input as POST data
      ether.httpPost(PSTR("/service"), website, PSTR("Content-Type: application/json"), jsonBuffer, my_result_cb);
      
     }
