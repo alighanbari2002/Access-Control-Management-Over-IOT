@@ -32,9 +32,6 @@ private: // members
     MainWindow    *_window;
     HistoryWindow *_history;
     CPSWebSocket  *_socket;
-
-    //TODO:
-    //YourSocketClass *_YourSocketClassInstance;
 };
 
 } // end of CPS
