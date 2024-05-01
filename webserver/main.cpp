@@ -53,7 +53,7 @@ public:
 
 
             if(strResource.contains(username,Qt::CaseSensitive))
-                strResource = username;
+                strResource = "Access Granted";
             else
                 strResource = "Access Denied!";
             return strResource;
