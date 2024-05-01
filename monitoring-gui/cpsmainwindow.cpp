@@ -71,7 +71,8 @@ void MainWindow::setUsername(const QString &username)
 
 void MainWindow::changeRightPanelEnabled(bool enabled)
 {
-    _rightPanel->setEnabled(enabled);
+    _connectBtn->setEnabled(enabled);
+    _historyBtn->setEnabled(!enabled);
 }
 
 void MainWindow::showUserDetails(const QString &username, const QString &date, const QString &time)

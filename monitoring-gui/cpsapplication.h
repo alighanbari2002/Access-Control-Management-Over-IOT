@@ -3,10 +3,13 @@
 
 #include <QObject>
 #include <QApplication>
+#include <QWebSocket>
 
 #include "cpsmainwindow.h"
 #include "cpshistorywindow.h"
 #include "cpswindowsapitools.h"
+#include "cpstextformatmanip.h"
+#include "cpswebsocket.h"
 
 namespace CPS {
 
@@ -21,16 +24,14 @@ public:
 
     void show();
 
-Q_SIGNALS:
-
-private Q_SLOTS:
+public slots: // Correctly declare slots here
     void showHistoryWindow();
-
-private: // methods
+    void showHistoryAfterSent(const QString &receivedMessage);
 
 private: // members
     MainWindow    *_window;
     HistoryWindow *_history;
+    CPSWebSocket  *_socket;
 
     //TODO:
     //YourSocketClass *_YourSocketClassInstance;

@@ -11,6 +11,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
+find_package(Qt6 REQUIRED COMPONENTS WebSockets)
 
 set(PROJECT_SOURCES
         main.cpp
@@ -33,6 +34,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         cpslabel.h cpslabel.cpp
         cpswindowsapitools.h
         cpsapplication.h cpsapplication.cpp
+        cpswebsocket.h cpswebsocket.cpp
+        cpstextformatmanip.h cpstextformatmanip.cpp
     )
 
 set(app_icon_resource_windows "${CMAKE_CURRENT_SOURCE_DIR}/Ut.ico")
@@ -56,7 +59,7 @@ else()
 endif()
 
 if(WIN32)
-    target_link_libraries(MonitoritngSystem PRIVATE Qt${QT_VERSION_MAJOR}::Widgets dwmapi)
+    target_link_libraries(MonitoritngSystem PRIVATE Qt${QT_VERSION_MAJOR}::Widgets dwmapi PRIVATE Qt6::WebSockets)
 else()
     target_link_libraries(MonitoritngSystem PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
 endif()
