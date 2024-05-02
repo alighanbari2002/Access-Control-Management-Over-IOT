@@ -16,7 +16,7 @@ private:
     const QString AUTHORIZED = "Authorized";
     const QString UNAUTHORIZED = "Unauthroized";
     const QString CHECK_AUTHORIZATION = "Checkauth";
-    const QString GET_USER_DATA = "GetUserData";
+    const QString SEND_USER_DATA = "GetUserData";
     const QString SEND_CLIENT_INFO = "SendClientInfo";
     const QString SEND_HISTORY = "SendHistory";
 public:

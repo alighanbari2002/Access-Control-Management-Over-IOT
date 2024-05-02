@@ -36,6 +36,7 @@ void CPSWebSocket::connectToServer(const QString &address,
         requestInfo.insert("action", SEND_CLIENT_INFO);
         requestInfo.insert("username", username);
         requestInfo.insert("password", password);
+        _qwsocket.sendTextMessage(QJsonDocument(requestInfo).toJson(QJsonDocument::Compact));
     }
     else
     {
@@ -62,7 +63,7 @@ void CPSWebSocket::responseHandler(const QString &response)
             qDebug() << "Invalid response";
         }
     }
-    else if(actionResponse == GET_USER_DATA)
+    else if(actionResponse == SEND_USER_DATA)
     {
         Q_EMIT newUser(serverResponse[0].toObject().value("username").toString(),
                        serverResponse[0].toObject().value("date").toString(),

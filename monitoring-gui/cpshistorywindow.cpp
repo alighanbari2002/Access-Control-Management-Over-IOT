@@ -29,22 +29,30 @@ HistoryWindow::~HistoryWindow()
 
 void HistoryWindow::show(const QJsonArray &array)
 {
-    uint index = 0;
-    _list->addItem("index\tusername\t|\tdate\t|\ttime");
+    if(array[0].toObject().value("error").isNull())
+    {
+        uint index = 0;
+        _list->addItem("index\tusername\t|\tdate\t|\ttime");
 
-    for (auto& item : array){
-        index++;
+        for (auto& item : array){
+            index++;
 
-        auto object       = item.toObject();
-        auto structure    = QString("%1-\t%2\t|\t%3\t|\t%4");
+            auto object       = item.toObject();
+            auto structure    = QString("%1-\t%2\t|\t%3\t|\t%4");
 
-        auto username     = object["username"].toString();
-        auto date         = object["date"].toString();
-        auto time         = object["time"].toString();
+            auto username     = object["username"].toString();
+            auto date         = object["date"].toString();
+            auto time         = object["time"].toString();
 
-        auto entry        = structure.arg(QString::number(index), username, date, time);
+            auto entry        = structure.arg(QString::number(index), username, date, time);
 
-        _list->addItem(entry);
+            _list->addItem(entry);
+        }
+
+    }
+    else
+    {
+        _list->addItem(array[0].toObject().value("error").toString());
     }
 
     QWidget::show();
