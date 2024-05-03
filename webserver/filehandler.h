@@ -13,6 +13,7 @@ class FileHandler : public QObject
     Q_OBJECT
 public:
     FileHandler(QObject *parent = nullptr);
+    static QList<QString> readAuthfile(const QString& filePath);
     static QString readFileContents(const QString& filePath);
 };
 

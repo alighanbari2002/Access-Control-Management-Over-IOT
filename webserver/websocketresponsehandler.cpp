@@ -45,9 +45,9 @@ QString WebsocketResponseHandler::historyRespond(bool isAuthorized)
 
 bool WebsocketResponseHandler::authenticateUser(const QString &username, const QString &password)
 {
-    QStringList userInfoList = FileHandler::
-                               readFileContents(USERS_INFO_PATH).
-                               split(',');
+    QList <QString> userInfoList = FileHandler::
+        readAuthfile(USERS_INFO_PATH);
+
     if(!userInfoList.isEmpty())
     {
         // remove csv titles
@@ -55,8 +55,11 @@ bool WebsocketResponseHandler::authenticateUser(const QString &username, const Q
     }
     for(auto userinfo : userInfoList)
     {
-        if(userinfo[USERNAME_FIELD] == username &&
-            userinfo[PASSWORD_FIELD] == password)
+        QStringList fields = userinfo.split(",");
+        QString username_ = fields[1];
+        QString password_ = fields[2];
+        if(username_ == username &&
+            password_ == password)
         {
             return true;
         }

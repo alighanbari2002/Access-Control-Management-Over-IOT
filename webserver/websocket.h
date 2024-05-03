@@ -4,7 +4,6 @@
 #include <QObject>
 #include <QWebSocket>
 #include <QWebSocketServer>
-#include "websocket.h"
 #include "defs.h"
 #include "websocketresponsehandler.h"
 

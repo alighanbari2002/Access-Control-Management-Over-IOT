@@ -5,7 +5,7 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
-#include "../cpsguimonitoring/cpstextformatmanip.h"
+#include "cpstextformatmanip.h"
 #include "defs.h"
 #include "filehandler.h"
 
