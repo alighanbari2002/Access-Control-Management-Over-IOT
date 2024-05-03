@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.14)
 
-project(CPSwebserver LANGUAGES CXX)
+project(web LANGUAGES CXX)
 
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
@@ -15,7 +15,7 @@ find_package(Qt6 REQUIRED COMPONENTS Network)
 find_package(Qt6 REQUIRED COMPONENTS WebSockets)
 
 
-add_executable(CPSwebserver
+add_executable(web
   main.cpp
   webserver.h webserver.cpp
   filehandler.h filehandler.cpp
@@ -27,10 +27,10 @@ add_executable(CPSwebserver
   cpstextformatmanip.cpp
   webcontainer.h webcontainer.cpp
 )
-target_link_libraries(CPSwebserver Qt${QT_VERSION_MAJOR}::Core Qt6::Network Qt6::WebSockets)
+target_link_libraries(web Qt${QT_VERSION_MAJOR}::Core Qt6::Network Qt6::WebSockets)
 
 include(GNUInstallDirs)
-install(TARGETS CPSwebserver
+install(TARGETS web
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )

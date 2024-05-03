@@ -26,8 +26,8 @@ const QString HISTORY_FILE = "history.csv";
 const QString RESOURCES_PATH = ":/resources";
 const QString USERS_INFO_PATH = RESOURCES_PATH + "/" + USERS_INFO_FILE;
 const QString VALID_RFID_PATH = RESOURCES_PATH + "/" + VALID_RFID_FILE;
-const QString LOG_FILE_PATH = RESOURCES_PATH + "/" + LOG_FILE;
-const QString HISTORY_FILE_PATH = RESOURCES_PATH + "/" + HISTORY_FILE;
+const QString LOG_FILE_PATH =  "./" + LOG_FILE;
+const QString HISTORY_FILE_PATH =  "./" + HISTORY_FILE;
 const int USERNAME_FIELD = 1;
 const int PASSWORD_FIELD = 2;
 

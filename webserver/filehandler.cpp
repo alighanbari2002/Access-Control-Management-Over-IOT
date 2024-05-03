@@ -1,5 +1,7 @@
 #include "filehandler.h"
-
+#include <fstream>
+#include <iostream>
+#include <string>
 FileHandler::FileHandler(QObject *parent) : QObject{parent}{}
 
 
@@ -25,25 +27,26 @@ void FileHandler::saveActivityToLog(const QString &rfid,
                                        const QString &accessStatus,
                                        const QString &filePath)
 {
-    QFile file(filePath);
-    if(!file.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Append))
+    std::ofstream file(filePath.toStdString(), std::ios::out | std::ios::app);
+    if (!file.is_open())
     {
-        qDebug() << "Error opening file:" << file.errorString();
+        std::cerr << "Error opening file: " << filePath.toStdString() << std::endl;
+        return;
     }
-    QTextStream out(&file);
-    out << rfid << "," << time << "," << date << "," << accessStatus << ",\n";
+    file << rfid.toStdString() << "," << time.toStdString()
+         << "," << date.toStdString() << "," << accessStatus.toStdString() << ",\n";
     file.close();
 }
-
 void FileHandler::saveActivityToHistory(const QString &rfid, const QString &time, const QString &date, const QString &filePath)
 {
-    QFile file(filePath);
-    if(!file.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Append))
+    std::ofstream file(filePath.toStdString(), std::ios::out | std::ios::app);
+    if (!file.is_open())
     {
-        qDebug() << "Error opening file:" << file.errorString();
+        std::cerr << "Error opening file: " << filePath.toStdString() << std::endl;
+        return;
     }
-    QTextStream out(&file);
-    out << rfid << "," << time << "," << date << ",\n";
+    file << rfid.toStdString() << "," << time.toStdString()
+         << "," << date.toStdString() <<  ",\n";
     file.close();
 }
 
