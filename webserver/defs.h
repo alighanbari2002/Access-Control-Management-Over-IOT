@@ -31,5 +31,9 @@ const QString HISTORY_FILE_PATH = RESOURCES_PATH + "/" + HISTORY_FILE;
 const int USERNAME_FIELD = 1;
 const int PASSWORD_FIELD = 2;
 
+const int HISTORY_RFID_INDEX = 0;
+const int HISTORY_TIME_INDEX = 1;
+const int HISTORY_DATE_INDEX = 2;
+
 
 #endif // DEFS_H

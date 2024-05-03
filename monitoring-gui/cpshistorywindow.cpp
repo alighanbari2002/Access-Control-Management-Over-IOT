@@ -29,31 +29,30 @@ HistoryWindow::~HistoryWindow()
 
 void HistoryWindow::show(const QJsonArray &array)
 {
-    if(array[0].toObject().value("error").isNull())
+    if(array.isEmpty())
     {
-        uint index = 0;
-        _list->addItem("index\tusername\t|\tdate\t|\ttime");
-
-        for (auto& item : array){
-            index++;
-
-            auto object       = item.toObject();
-            auto structure    = QString("%1-\t%2\t|\t%3\t|\t%4");
-
-            auto username     = object["username"].toString();
-            auto date         = object["date"].toString();
-            auto time         = object["time"].toString();
-
-            auto entry        = structure.arg(QString::number(index), username, date, time);
-
-            _list->addItem(entry);
-        }
-
+        qDebug() << "array empty";
     }
-    else
+
+    uint index = 0;
+    _list->addItem("index\tusername\t|\tdate\t|\ttime");
+
+    for (auto& item : array)
     {
-        _list->addItem(array[0].toObject().value("error").toString());
+        index++;
+
+        auto object       = item.toObject();
+        auto structure    = QString("%1-\t%2\t|\t%3\t|\t%4");
+
+        auto username     = object["rfid"].toString();
+        auto date         = object["date"].toString();
+        auto time         = object["time"].toString();
+
+        auto entry        = structure.arg(QString::number(index), username, date, time);
+
+        _list->addItem(entry);
     }
+
 
     QWidget::show();
 }

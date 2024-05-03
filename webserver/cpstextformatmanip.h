@@ -17,6 +17,7 @@ public:
 
 public:
     static QJsonArray jsonToQJsonArray(const QString jsonString);
+    static QJsonArray historyCSVLinesToJsonArray(const QList<QString> &csvLines);
 };
 }
 #endif // CPSTEXTFORMATMANIP_H

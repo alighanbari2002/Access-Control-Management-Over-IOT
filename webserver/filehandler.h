@@ -13,7 +13,7 @@ class FileHandler : public QObject
     Q_OBJECT
 public:
     FileHandler(QObject *parent = nullptr);
-    static QList<QString> readAuthfile(const QString& filePath);
+    static QList<QString> readCSVbyLine(const QString& filePath);
     static QString readFileContents(const QString& filePath);
     static void saveActivityToLog(const QString &rfid,
                                      const QString &time,
@@ -25,6 +25,7 @@ public:
                                       const QString &time,
                                       const QString &date,
                                       const QString &filePath);
+
 };
 
 #endif // FILEINTERACTIONHANDLER_H

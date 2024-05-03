@@ -31,7 +31,7 @@ void FileHandler::saveActivityToLog(const QString &rfid,
         qDebug() << "Error opening file:" << file.errorString();
     }
     QTextStream out(&file);
-    out << rfid << "," << time << "," << date << "," << accessStatus << "\n";
+    out << rfid << "," << time << "," << date << "," << accessStatus << ",\n";
     file.close();
 }
 
@@ -43,13 +43,11 @@ void FileHandler::saveActivityToHistory(const QString &rfid, const QString &time
         qDebug() << "Error opening file:" << file.errorString();
     }
     QTextStream out(&file);
-    out << rfid << "," << time << "," << date << "\n";
+    out << rfid << "," << time << "," << date << ",\n";
     file.close();
 }
 
-
-
-QList<QString> FileHandler::readAuthfile(const QString &filePath)
+QList<QString> FileHandler::readCSVbyLine(const QString &filePath)
 {
     QList <QString> Content;
     QFile file(filePath);

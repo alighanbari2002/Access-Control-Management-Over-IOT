@@ -1,6 +1,8 @@
 <RCC>
     <qresource prefix="/resources">
         <file>ValidRfid.csv</file>
-		<file>usersinfo.csv</file>
+	<file>usersinfo.csv</file>
+	<file>history.csv</file>
+	<file>log.csv</file>
     </qresource>
 </RCC>

@@ -79,10 +79,11 @@ void MainWindow::showUserDetails(const QString &rfid, const QString &date, const
     this->setDate(date);
     this->setTime(time);
     this->setUsername(rfid);
-    qDebug() << "A user has arrived!\n"
-             << "RFID: " << rfid << "\n"
-             << "date: " << date << "\n"
-             << "time: " << time << "\n";
+    QTextStream(stdout) << "A user has arrived!\n"
+                        << "RFID: " << rfid << "\n"
+                        << "Date: " << date << "\n"
+                        << "Time: " << time << "\n";
+
 }
 
 

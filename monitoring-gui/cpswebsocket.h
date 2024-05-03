@@ -14,7 +14,7 @@ class CPSWebSocket : public QObject
     Q_OBJECT
 private:
     const QString GET_HISTORY = "#Fetch_History#";
-    const QString GET_HISTORY_RESPONSE = "GET_HISTORY_RESPONSE";
+    const QString GET_HISTORY_RESPONSE = "HistorySent";
     const QString CHECK_AUTH = "Checkauth";
     const QString CHECK_AUTH_RESPONSE = "Authchecked";
     const QString NEW_USER_NOTIF = "NewUserArrival";

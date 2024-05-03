@@ -46,8 +46,17 @@ void Application::showHistoryWindow()
 
 void Application::showHistoryAfterSent(const QString &receivedMessage)
 {
-    QJsonArray data = CPSTextFormatManip::jsonToQJsonArray(receivedMessage);
-    _history->show(data);
+    if(receivedMessage.isNull() || receivedMessage.isEmpty())
+    {
+        QTextStream(stdout) << "No History yet!\n";
+    }
+    else
+    {
+        QJsonDocument qjsdoc = QJsonDocument::fromJson(receivedMessage.toUtf8());
+        QJsonObject qjsobj = qjsdoc.object();
+        QJsonArray dataArray = qjsobj["data"].toArray();
+        _history->show(dataArray);
+    }
 }
 
 } // end of CPS

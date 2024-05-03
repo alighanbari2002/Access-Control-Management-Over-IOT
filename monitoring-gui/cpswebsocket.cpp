@@ -84,8 +84,12 @@ void CPSWebSocket::responseHandler(const QString &response)
     else if(actionResponse == GET_HISTORY_RESPONSE)
     {
         // Remove action to end up with history iteself
-        serverResponse.removeAt(0);
-        Q_EMIT serverSentHistory(QString(QJsonDocument(serverResponse).toJson()));
+        QJsonObject qjsobj = serverResponse[0].toObject();
+        QJsonDocument historyDoc = QJsonDocument(qjsobj);
+
+        QString historyDataArrayString = QString(historyDoc.toJson(
+            QJsonDocument::JsonFormat::Compact));
+        Q_EMIT serverSentHistory(historyDataArrayString);
     }
     else
     {

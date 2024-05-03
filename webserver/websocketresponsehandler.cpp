@@ -52,13 +52,27 @@ QString WebsocketResponseHandler::authRespond(bool isAuthorized)
 
 QString WebsocketResponseHandler::historyRespond(bool isAuthorized)
 {
-    // TODO
+    // Unlikely to happen since authority was checked in the
+    // CHECK_AUTH phase of the connection
+    if(!isAuthorized)
+    {
+        return authRespond(isAuthorized);
+    }
+    QJsonObject historyJsonResponse = {
+        {"action", GET_HISTORY_RESPONSE}
+    };
+    QJsonArray historyJsonArray = CPS::
+                                    CPSTextFormatManip::
+        historyCSVLinesToJsonArray(FileHandler::readCSVbyLine(HISTORY_FILE_PATH));
+    historyJsonResponse.insert("data", historyJsonArray);
+    return QString(QJsonDocument(historyJsonResponse).
+                   toJson(QJsonDocument::JsonFormat::Compact));
 }
 
 bool WebsocketResponseHandler::authenticateUser(const QString &username, const QString &password)
 {
     QList <QString> userInfoList = FileHandler::
-        readAuthfile(USERS_INFO_PATH);
+        readCSVbyLine(USERS_INFO_PATH);
 
     if(!userInfoList.isEmpty())
     {
