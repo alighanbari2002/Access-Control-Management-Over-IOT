@@ -24,7 +24,7 @@ By running the Arduino code and entering the information through the virtual ter
 
 And if it is wrong, the light will be red and the message Access Denied will be printed on the screen + reply time:
 
-![](screenshot/InvalidRequestFromArduino.png)
+![](screenshot/invalidRequestFromArduino.png)
 
 
 
