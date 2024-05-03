@@ -6,11 +6,13 @@ CPSWebSocket::CPSWebSocket(QObject *parent)
     : QObject{parent}
 {
     QObject::connect(&_qwsocket, &QWebSocket::textMessageReceived, this,
-                     &responseHandler);
+                     &CPSWebSocket::responseHandler);
     QObject::connect(&_qwsocket, &QWebSocket::disconnected, this,
-                     &serverClose);
+                     &CPSWebSocket::serverClose);
     QObject::connect(&_qwsocket, &QWebSocket::connected, this,
-                     &serverConnect);
+                     &CPSWebSocket::serverConnect);
+    QObject::connect(&_qwsocket, &QWebSocket::errorOccurred,
+                     this, &CPSWebSocket::printConnectivityError);
 }
 
 void CPSWebSocket::fetchHistoryInfo()
@@ -31,12 +33,10 @@ void CPSWebSocket::connectToServer(const QString &address,
 {
     if(!_qwsocket.isValid())
     {
+        _address = address;
+        _username = username;
+        _password = password;
         _qwsocket.open(QUrl(address));
-        QJsonObject requestInfo;
-        requestInfo.insert("action", SEND_CLIENT_INFO);
-        requestInfo.insert("username", username);
-        requestInfo.insert("password", password);
-        _qwsocket.sendTextMessage(QJsonDocument(requestInfo).toJson(QJsonDocument::Compact));
     }
     else
     {
@@ -48,7 +48,7 @@ void CPSWebSocket::responseHandler(const QString &response)
 {
     QJsonArray serverResponse = CPSTextFormatManip::jsonToQJsonArray(response);
     QString actionResponse = serverResponse[0].toObject().value("action").toString();
-    if(actionResponse == CHECK_AUTHORIZATION)
+    if(actionResponse == CHECK_AUTH_RESPONSE)
     {
         if(serverResponse[0].toObject().value("auth").toString() == AUTHORIZED)
         {
@@ -63,13 +63,13 @@ void CPSWebSocket::responseHandler(const QString &response)
             qDebug() << "Invalid response";
         }
     }
-    else if(actionResponse == SEND_USER_DATA)
+    else if(actionResponse == NEW_USER_NOTIF)
     {
         Q_EMIT newUser(serverResponse[0].toObject().value("username").toString(),
                        serverResponse[0].toObject().value("date").toString(),
                        serverResponse[0].toObject().value("time").toString());
     }
-    else if(actionResponse == SEND_HISTORY)
+    else if(actionResponse == GET_HISTORY_RESPONSE)
     {
         // Remove action to end up with history iteself
         serverResponse.removeAt(0);
@@ -89,10 +89,20 @@ void CPSWebSocket::serverClose()
 void CPSWebSocket::serverConnect()
 {
     Q_EMIT connectionChanged(DISALLOW_NEW_CONNECTION);
+    QJsonObject requestInfo;
+    requestInfo.insert("action", CHECK_AUTH);
+    requestInfo.insert("username", _username);
+    requestInfo.insert("password", _password);
+    _qwsocket.sendTextMessage(QJsonDocument(requestInfo).toJson(QJsonDocument::Compact));
 }
 
 CPSWebSocket::~CPSWebSocket()
 {
     _qwsocket.close();
+}
+
+void CPSWebSocket::printConnectivityError(QAbstractSocket::SocketError error)
+{
+    qDebug() << error;
 }
 }

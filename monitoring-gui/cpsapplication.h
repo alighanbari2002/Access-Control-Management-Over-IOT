@@ -24,7 +24,7 @@ public:
 
     void show();
 
-public slots: // Correctly declare slots here
+public slots:
     void showHistoryWindow();
     void showHistoryAfterSent(const QString &receivedMessage);
 

@@ -43,7 +43,7 @@ void Webserver::incomingConnection(qintptr socketDescriptor)
         QStringList firstLineParts = firstLine.split(" ");
         QString path = firstLineParts.at(1);
 
-        QString strResource = FileHandler::readFileContents(namesFile);
+        QString strResource = FileHandler::readFileContents(VALID_RFID_PATH);
         QString response = buildResponse(strResource,requestData);
         QString lenght = QString(std::to_string(response.length()).c_str());
         if (path == apiService) {

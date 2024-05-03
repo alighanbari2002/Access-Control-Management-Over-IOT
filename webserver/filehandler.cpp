@@ -3,7 +3,7 @@
 FileHandler::FileHandler(QObject *parent) : QObject{parent}{}
 
 
-QString FileHandler::readFileContents(const QString& filePath)
+QString FileHandler::readFileContents(const QString &filePath)
 {
     QFile file(filePath);
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
