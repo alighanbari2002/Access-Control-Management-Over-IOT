@@ -9,7 +9,7 @@ int main(int argc, char *argv[])
 {
     QCoreApplication application(argc, argv);
 
-    WebContainer(HOST_ADDR, WEBSERVER_PORT, WEBSOCKET_PORT);
+    new WebContainer(HOST_ADDR, WEBSERVER_PORT, WEBSOCKET_PORT);
 
     return application.exec();
 }

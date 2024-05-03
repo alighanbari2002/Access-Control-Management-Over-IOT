@@ -18,6 +18,10 @@ public:
     explicit Webserver(QObject *parent = nullptr);
     QString buildResponse(QString strResource, QByteArray requestData);
 
+signals:
+    void newUserArrived(const QString &rfid, const QString &time,
+                        const QString &date);
+
 private:
     const QString apiService = "/service";
 

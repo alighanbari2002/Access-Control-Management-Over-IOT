@@ -26,6 +26,30 @@ void Websocket::processMessage(const QString &request)
     QString response = _handler->handleResponse(request);
     QWebSocket *requester = qobject_cast<QWebSocket*>(QObject::sender());
     requester->sendTextMessage(response);
+    const QString checkauth = QJsonDocument::fromJson(response.toUtf8()).
+                              object().value("auth").toString();
+    if(!checkauth.isNull() && checkauth == UNAUTHORIZED)
+    {
+        requester->flush();
+        requester->close();
+    }
+}
+
+void Websocket::sendNewUserNotif(const QString &rfid, const QString &time,
+                                 const QString &date)
+{
+    QString response = _handler->newUserNotifResponse(rfid, time, date);
+    for(auto &client : _clients)
+    {
+        client->sendTextMessage(response);
+    }
+}
+
+Websocket::~Websocket()
+{
+    delete _webSocketServer;
+    delete _handler;
+    _clients.clear();
 }
 
 Websocket::Websocket(QHostAddress hostaddr, int port, QObject *parent) :

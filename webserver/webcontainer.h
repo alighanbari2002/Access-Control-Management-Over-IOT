@@ -15,9 +15,10 @@ private:
 public:
     explicit WebContainer(QHostAddress hostaddr, int webserverport,
                           int websocketport, QObject *parent = nullptr);
-
+    ~WebContainer();
 signals:
-    void relayNewUserToWebsocketserver(const QString &data);
+    void relayNewUserToWebsocketserver(const QString &rfid, const QString &time,
+                                       const QString &date);
 };
 
 #endif // WEBCONTAINER_H

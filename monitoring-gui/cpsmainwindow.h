@@ -28,7 +28,7 @@ Q_SIGNALS:
 
 public Q_SLOTS:
     void changeRightPanelEnabled(bool enabled);
-    void showUserDetails(const QString &username, const QString &date, const QString &time);
+    void showUserDetails(const QString &rfid, const QString &date, const QString &time);
 
 private: // methods
     void setupConnections();

@@ -37,7 +37,7 @@ public:
     virtual ~CPSWebSocket();
 
 Q_SIGNALS:
-    void newUser(const QString &username,
+    void newUser(const QString &rfid,
                  const QString &date, const QString &time);
     void connectionChanged(bool status);
     void serverSentHistory(const QString);
@@ -46,8 +46,8 @@ private slots:
     void printConnectivityError(QAbstractSocket::SocketError error);
 
 public slots:
-    void connectToServer(const QString &address,
-                         const QString &username, const QString &password);
+    void connectToServer(const QString &address, const QString &username,
+                         const QString &password);
     void responseHandler(const QString &response);
     void serverClose();
     void serverConnect();

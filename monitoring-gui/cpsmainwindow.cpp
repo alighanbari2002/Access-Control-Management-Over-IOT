@@ -72,14 +72,17 @@ void MainWindow::setUsername(const QString &username)
 void MainWindow::changeRightPanelEnabled(bool enabled)
 {
     _connectBtn->setEnabled(enabled);
-    _historyBtn->setEnabled(!enabled);
 }
 
-void MainWindow::showUserDetails(const QString &username, const QString &date, const QString &time)
+void MainWindow::showUserDetails(const QString &rfid, const QString &date, const QString &time)
 {
     this->setDate(date);
     this->setTime(time);
-    this->setUsername(username);
+    this->setUsername(rfid);
+    qDebug() << "A user has arrived!\n"
+             << "RFID: " << rfid << "\n"
+             << "date: " << date << "\n"
+             << "time: " << time << "\n";
 }
 
 

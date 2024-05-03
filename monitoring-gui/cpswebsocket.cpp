@@ -19,7 +19,15 @@ void CPSWebSocket::fetchHistoryInfo()
 {
     if(_qwsocket.isValid())
     {
-        _qwsocket.sendTextMessage(GET_HISTORY);
+        QJsonObject fetchHistoryActionJson = {
+            {"action", GET_HISTORY},
+            {"username", _username},
+            {"password", _password}
+        };
+        _qwsocket.sendTextMessage(QJsonDocument(
+            fetchHistoryActionJson).
+            toJson(QJsonDocument::JsonFormat::Compact)
+            );
     }
     else
     {
@@ -36,12 +44,11 @@ void CPSWebSocket::connectToServer(const QString &address,
         _address = address;
         _username = username;
         _password = password;
-        QString wsAddress = address;
-        if(QString::compare(address.left(5), QString("ws://")) != 0)
+        if(QString::compare(_address.left(5), QString("ws://")) != 0)
         {
-            wsAddress = QString("ws://") + wsAddress;
+            _address = QString("ws://") + _address;
         }
-        _qwsocket.open(QUrl(wsAddress));
+        _qwsocket.open(QUrl(_address));
     }
     else
     {
@@ -70,7 +77,7 @@ void CPSWebSocket::responseHandler(const QString &response)
     }
     else if(actionResponse == NEW_USER_NOTIF)
     {
-        Q_EMIT newUser(serverResponse[0].toObject().value("username").toString(),
+        Q_EMIT newUser(serverResponse[0].toObject().value("rfid").toString(),
                        serverResponse[0].toObject().value("date").toString(),
                        serverResponse[0].toObject().value("time").toString());
     }

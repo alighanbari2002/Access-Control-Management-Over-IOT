@@ -15,14 +15,16 @@ private:
     QList<QWebSocket *> _clients;
     WebsocketResponseHandler* _handler;
 
-Q_SIGNALS:
-
 public slots:
     void onNewConnection();
     void socketDisconnected();
     void processMessage(const QString &request);
+    void sendNewUserNotif(const QString &rfid, const QString &time,
+                          const QString &date);
+
 public:
     Websocket(QHostAddress hosturl, int port, QObject* parent = nullptr);
+    ~Websocket();
 };
 
 #endif // WEBSOCKET_H

@@ -19,6 +19,34 @@ QString FileHandler::readFileContents(const QString &filePath)
     return Content;
 }
 
+void FileHandler::saveActivityToLog(const QString &rfid,
+                                       const QString &time,
+                                       const QString &date,
+                                       const QString &accessStatus,
+                                       const QString &filePath)
+{
+    QFile file(filePath);
+    if(!file.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Append))
+    {
+        qDebug() << "Error opening file:" << file.errorString();
+    }
+    QTextStream out(&file);
+    out << rfid << "," << time << "," << date << "," << accessStatus << "\n";
+    file.close();
+}
+
+void FileHandler::saveActivityToHistory(const QString &rfid, const QString &time, const QString &date, const QString &filePath)
+{
+    QFile file(filePath);
+    if(!file.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Append))
+    {
+        qDebug() << "Error opening file:" << file.errorString();
+    }
+    QTextStream out(&file);
+    out << rfid << "," << time << "," << date << "\n";
+    file.close();
+}
+
 
 
 QList<QString> FileHandler::readAuthfile(const QString &filePath)

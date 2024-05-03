@@ -7,9 +7,13 @@ Webserver::Webserver(QObject *parent) : QTcpServer{parent} {}
 
 QString Webserver::buildResponse(QString strResource,QByteArray requestData)
 {
-    if( QString::fromUtf8(requestData)[0] == 'G') // GET Method
+    if(QString::fromUtf8(requestData)[0] == 'G') // GET Method
+    {
         return strResource; //return users
-    else { // POST Method
+
+    }
+    else // POST Method
+    {
         QString reqString = QString::fromUtf8(requestData);
 
 
@@ -18,13 +22,23 @@ QString Webserver::buildResponse(QString strResource,QByteArray requestData)
 
         QJsonDocument doc = QJsonDocument::fromJson(jsonString.toUtf8());
         QJsonObject json = doc.object();
-        QString username = json["username"].toString();
+        QString rfid = json["username"].toString();
+        QString time = json["time"].toString();
+        QString date = json["date"].toString();
 
 
-        if(strResource.contains(username,Qt::CaseSensitive))
+        if(strResource.contains(rfid,Qt::CaseSensitive))
+        {
             strResource = "Access Granted";
+            Q_EMIT Webserver::newUserArrived(rfid, time, date);
+        }
         else
+        {
             strResource = "Access Denied!";
+        }
+        FileHandler::saveActivityToHistory(rfid, time, date, HISTORY_FILE_PATH);
+        FileHandler::saveActivityToLog(rfid, time, date, strResource,
+                                       LOG_FILE_PATH);
         return strResource;
     }
 }

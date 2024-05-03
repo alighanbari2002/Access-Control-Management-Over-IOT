@@ -27,6 +27,18 @@ QString WebsocketResponseHandler::handleResponse(const QString &request)
     }
 }
 
+QString WebsocketResponseHandler::newUserNotifResponse(const QString &rfid, const QString &time, const QString &date)
+{
+    QJsonObject qjsobj = {
+        {"action", NEW_USER_NOTIF},
+        {"rfid", rfid},
+        {"time", time},
+        {"date", date}
+    };
+    QJsonDocument jsdoc = QJsonDocument(qjsobj);
+    return QString(jsdoc.toJson(QJsonDocument::JsonFormat::Compact));
+}
+
 QString WebsocketResponseHandler::authRespond(bool isAuthorized)
 {
     QJsonObject respondJson = {
@@ -53,7 +65,7 @@ bool WebsocketResponseHandler::authenticateUser(const QString &username, const Q
         // remove csv titles
         userInfoList.removeFirst();
     }
-    for(auto userinfo : userInfoList)
+    for(auto &userinfo : userInfoList)
     {
         QStringList fields = userinfo.split(",");
         QString username_ = fields[1];
@@ -66,5 +78,6 @@ bool WebsocketResponseHandler::authenticateUser(const QString &username, const Q
     }
     return false;
 }
+
 
 

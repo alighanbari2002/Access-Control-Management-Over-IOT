@@ -20,6 +20,8 @@ private:
 public:
     WebsocketResponseHandler(QObject *parent = nullptr);
     QString handleResponse(const QString &request);
+    QString newUserNotifResponse(const QString &rfid, const QString &time,
+                                 const QString &date);
 
 };
 
