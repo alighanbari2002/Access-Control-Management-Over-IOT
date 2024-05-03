@@ -36,7 +36,12 @@ void CPSWebSocket::connectToServer(const QString &address,
         _address = address;
         _username = username;
         _password = password;
-        _qwsocket.open(QUrl(address));
+        QString wsAddress = address;
+        if(QString::compare(address.left(5), QString("ws://")) != 0)
+        {
+            wsAddress = QString("ws://") + wsAddress;
+        }
+        _qwsocket.open(QUrl(wsAddress));
     }
     else
     {
