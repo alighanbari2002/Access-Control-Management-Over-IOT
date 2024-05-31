@@ -5,6 +5,7 @@ void Websocket::onNewConnection()
 {
     QWebSocket *thisClientSocket = _webSocketServer->
                                     nextPendingConnection();
+    _clients.append(thisClientSocket);
     QObject::connect(thisClientSocket, &QWebSocket::disconnected, this,
                      &Websocket::socketDisconnected);
     QObject::connect(thisClientSocket, &QWebSocket::textMessageReceived,
